@@ -34,4 +34,15 @@ my $exp = [
 ];
 is ($qr_res_box, $exp, 'query_partly_within_rect for a box');
 
+my $q_completely_in_box
+    = $tree->query_completely_within_rect (0.25, 0.25, 3.75, 3.75);
+# my $exp = [
+#     "0.5:0.5:1.5:1.5",
+#     "0.5:1.5:1.5:2.5",
+#     "0.5:2.5:1.5:3.5",
+# ];
+is ($q_completely_in_box, $exp, 'query_completely_within_rect for a box');
+
+
+
 done_testing;

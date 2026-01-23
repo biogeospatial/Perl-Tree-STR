@@ -142,6 +142,16 @@ sub query_partly_within_rect {
     return $self->{root}->query_partly_within_rect(@_);
 }
 
+=head2 query_partly_within_rect
+
+=cut
+
+sub query_completely_within_rect {
+    my $self = shift;
+
+    return $self->{root}->query_completely_within_rect(@_);
+}
+
 =head1 AUTHOR
 
 Shawn Laffan <shawnlaffan@gmail.com>

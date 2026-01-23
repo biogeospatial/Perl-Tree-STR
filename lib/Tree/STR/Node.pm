@@ -63,4 +63,31 @@ sub query_partly_within_rect {
     return \@collated;
 }
 
+sub query_completely_within_rect {
+    my ($self, $x1, $y1, $x2, $y2) = @_;
+    my $bbox = $self->bbox;
+
+    #  no overlap
+    return []
+        if $x2 < $bbox->[0] || $x1 > $bbox->[2]
+        || $y2 < $bbox->[1] || $y1 > $bbox->[3];
+
+    if ($self->is_tip_node) {
+        #  not fully contained
+        return []
+            if !($x1 < $bbox->[0] && $x2 > $bbox->[2]
+              && $y1 < $bbox->[1] && $y2 > $bbox->[3]
+            );
+
+        return [ $self->{tip} ];
+    }
+
+    my @collated;
+    foreach my $child (@{ $self->{children} // [] }) {
+        my $res = $child->query_completely_within_rect ($x1, $y1, $x2, $y2);
+        push @collated, @$res;
+    }
+    return \@collated;
+}
+
 1;

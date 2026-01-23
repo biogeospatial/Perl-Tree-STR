@@ -62,7 +62,7 @@ sub query_partly_within_rect {
 
     my @collated;
     foreach my $child (@{ $self->children }) {
-        my $res = $child->query_partly_within_rect   ($x1, $y1, $x2, $y2);
+        my $res = $child->query_partly_within_rect ($x1, $y1, $x2, $y2);
         push @collated, @$res;
     }
     return \@collated;

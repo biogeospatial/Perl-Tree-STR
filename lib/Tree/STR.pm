@@ -131,8 +131,8 @@ sub _get_bbox_from_centred_recs {
         my $bbox = $rec->[$bbox_idx];
         $x1 = min($x1, $bbox->[0]);
         $y1 = min($y1, $bbox->[1]);
-        $x2 = max($x1, $bbox->[2]);
-        $y2 = max($x1, $bbox->[3]);
+        $x2 = max($x2, $bbox->[2]);
+        $y2 = max($y2, $bbox->[3]);
     }
     return $x1, $y1, $x2, $y2;
 }

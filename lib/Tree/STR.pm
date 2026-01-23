@@ -122,7 +122,7 @@ sub _get_bbox_from_centred_recs {
     return $x1, $y1, $x2, $y2;
 }
 
-=head2 function1
+=head2 query_point
 
 =cut
 
@@ -132,7 +132,7 @@ sub query_point {
     return $self->{root}->query_point(@_);
 }
 
-=head2 function2
+=head2 query_partly_within_rect
 
 =cut
 

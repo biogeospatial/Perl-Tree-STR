@@ -14,7 +14,7 @@ my %WriteMakefileArgs = (
         'ExtUtils::MakeMaker' => '0',
     },
     TEST_REQUIRES => {
-        'Test::V2' => '0',
+        'Test2::V0' => '0',
     },
     PREREQ_PM => {
         'Ref::Util'  => 0,

@@ -59,7 +59,12 @@ sub _load_data {
     #  we need to work on the bbox centres
     my @bboxed = map {is_blessed_ref $_ && $_->can('bbox') ? [$_->bbox, $_] : $_} @$data;
     my @centred = map {[($_->[0] + $_->[2] / 2), ($_->[1] + $_->[3] / 2), $_]} @bboxed;
-    return $self->_load_data_inner(\@centred);
+    my @bbox = $self->_get_bbox_from_centred_recs(\@centred);
+    my $children = $self->_load_data_inner(\@centred);
+    return Tree::STR::Node->new (
+        bbox     => \@bbox,
+        children => $children,
+    );
 }
 
 sub _load_data_inner {
@@ -81,6 +86,9 @@ sub _load_data_inner {
     my @nodes;
     for my $range (@ranges) {
         my @recs = @sorted[$range->[0]..min($#sorted, $range->[1])];
+
+        next if !@recs;
+
         my @bbox = $self->_get_bbox_from_centred_recs(\@recs);
         if (@recs > 1) {
             push @nodes, Tree::STR::Node->new (
@@ -91,7 +99,7 @@ sub _load_data_inner {
         else {
             push @nodes, Tree::STR::Node->new (
                 bbox => \@bbox,
-                tip  => \@recs
+                tip  => $recs[0][2][-1],  #  nasty...
             );
         }
     }
@@ -119,6 +127,9 @@ sub _get_bbox_from_centred_recs {
 =cut
 
 sub query_point {
+    my ($self, $x, $y) = @_;
+
+    return $self->{root}->query_point($x, $y);
 }
 
 =head2 function2

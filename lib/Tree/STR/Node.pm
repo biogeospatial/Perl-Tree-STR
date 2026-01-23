@@ -55,8 +55,8 @@ sub query_partly_within_rect {
     my $bbox = $self->bbox;
 
     return []
-        if     $x2 < $bbox->[0] || $x1 > $bbox->[2]
-            || $y2 < $bbox->[1] || $y1 > $bbox->[3];
+        if $x2 < $bbox->[0] || $x1 > $bbox->[2]
+        || $y2 < $bbox->[1] || $y1 > $bbox->[3];
 
     return [$self->{tip}] if $self->is_tip_node;
 

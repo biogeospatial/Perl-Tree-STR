@@ -28,16 +28,31 @@ our $VERSION = '0.01';
 
     use Tree::STR;
 
-    my $foo = Tree::STR->new();
+    my $data = [[0,1,2,2,'item 1'], [10,20,100,200,'item 2']];
+    my $tree = Tree::STR->new($data);
+    my $intersects_point = $tree->query_point(50,50); # ['item 2']
+    my $intersects_poly  = $tree->query_partly_within_rect(20,20,200,200); # ['item 2']
     ...
+
+=head1 DESCRIPTION
+
+Create a Sort-Tile-Recursive tree.  This is a read-only R-Tree that
+is more efficient to create than a standard R-Tree.
+
+The input data need to be an array of arrays, where each internal
+array contains the bounding box coordinates as (xmin, ymin, xmax, ymax)
+followed by the item to be stored.
+
+Alternately one can pass an array of objects that provide a bbox method
+that returns an array of coordinates in the order (xmin, ymin, xmax, ymax).
 
 =head1 EXPORT
 
 None.
 
-=head1 SUBROUTINES/METHODS
+=head1 METHODS
 
-=head new
+=head2 new
 
 =cut
 
@@ -142,7 +157,7 @@ sub query_partly_within_rect {
     return $self->{root}->query_partly_within_rect(@_);
 }
 
-=head2 query_partly_within_rect
+=head2 query_completely_within_rect
 
 =cut
 
@@ -160,14 +175,16 @@ Shawn Laffan <shawnlaffan@gmail.com>
 
 L<https://github.com/biogeospatial/Tree-STR/issues>
 
-=back
-
 
 =head1 SEE ALSO
 
-Tree::R
+L<Tree::R>
 
-Geo::Geos::Index::STRtree
+L<Geo::Geos::Index::STRtree>
+
+Leutenegger, Scott T.; Edgington, Jeffrey M.; Lopez, Mario A. (1997).
+"STR: A Simple and Efficient Algorithm for R-Tree Packing".
+L<https://ia600900.us.archive.org/27/items/nasa_techdoc_19970016975/19970016975.pdf>
 
 
 =head1 LICENSE AND COPYRIGHT

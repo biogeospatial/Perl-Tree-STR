@@ -29,6 +29,27 @@ sub children {
     $self->{children} // [];
 }
 
+sub tip {
+    my ($self) = @_;
+    $self->{tip};
+}
+
+sub tips {
+    my ($self) = @_;
+    return $self if $self->is_tip_node;
+    my @tips;
+    my @children = @{$self->children};
+    while (my $child = shift @children) {
+        if ($child->is_tip_node) {
+            push @tips, $child;
+        }
+        else {
+            push @children, @{$child->children};
+        }
+    }
+    return \@tips;
+}
+
 sub bbox {
     my ($self) = @_;
     $self->{bbox};

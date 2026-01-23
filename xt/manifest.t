@@ -1,12 +1,12 @@
 #!perl
-use 5.008003;
+use 5.010;;
 use strict;
 use warnings;
 use Test::More;
 
-unless ( $ENV{RELEASE_TESTING} ) {
-    plan( skip_all => "Author tests not required for installation" );
-}
+# unless ( $ENV{RELEASE_TESTING} ) {
+#     plan( skip_all => "Author tests not required for installation" );
+# }
 
 my $min_tcm = 0.9;
 eval "use Test::CheckManifest $min_tcm";

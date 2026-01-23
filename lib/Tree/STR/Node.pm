@@ -96,3 +96,13 @@ sub query_completely_within_rect {
 }
 
 1;
+
+=head1 NAME
+
+Tree::STR::Node - Internal helper class for Tree::STR
+
+=head1 VERSION
+
+Version 0.01
+
+=cut

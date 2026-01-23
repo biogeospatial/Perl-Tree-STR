@@ -1,4 +1,4 @@
-use 5.008003;
+use 5.010;
 use strict;
 use warnings;
 use ExtUtils::MakeMaker;
@@ -9,16 +9,16 @@ my %WriteMakefileArgs = (
     VERSION_FROM     => 'lib/Tree/STR.pm',
     ABSTRACT_FROM    => 'lib/Tree/STR.pm',
     LICENSE          => 'artistic_2',
-    MIN_PERL_VERSION => '5.008003',
+    MIN_PERL_VERSION => '5.010',
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => '0',
     },
     TEST_REQUIRES => {
-        'Test::More' => '0',
+        'Test::V2' => '0',
     },
     PREREQ_PM => {
-        #'ABC'              => '1.6',
-        #'Foo::Bar::Module' => '5.0401',
+        'Ref::Util'  => 0,
+        'List::Util' => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Tree-STR-*' },

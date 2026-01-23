@@ -40,7 +40,24 @@ sub query_point {
     my @collated;
     foreach my $child (@{ $self->{children} // [] }) {
         my $res = $child->query_point ($x, $y);
-        say "$child " . join @$res;
+        push @collated, @$res;
+    }
+    return \@collated;
+}
+
+sub query_partly_within_rect {
+    my ($self, $x1, $y1, $x2, $y2) = @_;
+    my $bbox = $self->bbox;
+
+    return []
+        if     $x2 < $bbox->[0] || $x1 > $bbox->[2]
+            || $y2 < $bbox->[1] || $y1 > $bbox->[3];
+
+    return [$self->{tip}] if $self->is_tip_node;
+
+    my @collated;
+    foreach my $child (@{ $self->{children} // [] }) {
+        my $res = $child->query_partly_within_rect   ($x1, $y1, $x2, $y2);
         push @collated, @$res;
     }
     return \@collated;

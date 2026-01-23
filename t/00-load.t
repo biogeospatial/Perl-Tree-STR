@@ -23,5 +23,15 @@ my $tree = Tree::STR->new (\@data);
 my $qp_res = $tree->query_point (1,1);
 is ($qp_res, ["0.5:0.5:1.5:1.5"], 'query_point');
 
+my $qr_res_pt = $tree->query_partly_within_rect (1, 1, 1, 1);
+is ($qr_res_pt, ["0.5:0.5:1.5:1.5"], 'query_partly_within_rect for a point');
+
+my $qr_res_box = $tree->query_partly_within_rect (1, 1, 3, 3);
+my $exp = [
+    "0.5:0.5:1.5:1.5",
+    "0.5:1.5:1.5:2.5",
+    "0.5:2.5:1.5:3.5",
+];
+is ($qr_res_box, $exp, 'query_partly_within_rect for a box');
 
 done_testing;

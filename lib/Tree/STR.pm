@@ -127,9 +127,9 @@ sub _get_bbox_from_centred_recs {
 =cut
 
 sub query_point {
-    my ($self, $x, $y) = @_;
+    my $self = shift;
 
-    return $self->{root}->query_point($x, $y);
+    return $self->{root}->query_point(@_);
 }
 
 =head2 function2
@@ -137,6 +137,9 @@ sub query_point {
 =cut
 
 sub query_partly_within_rect {
+    my $self = shift;
+
+    return $self->{root}->query_partly_within_rect(@_);
 }
 
 =head1 AUTHOR

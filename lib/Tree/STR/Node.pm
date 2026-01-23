@@ -24,6 +24,11 @@ sub is_inner_node {
     !!$self->{children};
 }
 
+sub children {
+    my ($self) = @_;
+    $self->{children} // [];
+}
+
 sub bbox {
     my ($self) = @_;
     $self->{bbox};
@@ -38,7 +43,7 @@ sub query_point {
     return [$self->{tip}] if $self->is_tip_node;
 
     my @collated;
-    foreach my $child (@{ $self->{children} // [] }) {
+    foreach my $child (@{ $self->children }) {
         my $res = $child->query_point ($x, $y);
         push @collated, @$res;
     }
@@ -56,7 +61,7 @@ sub query_partly_within_rect {
     return [$self->{tip}] if $self->is_tip_node;
 
     my @collated;
-    foreach my $child (@{ $self->{children} // [] }) {
+    foreach my $child (@{ $self->children }) {
         my $res = $child->query_partly_within_rect   ($x1, $y1, $x2, $y2);
         push @collated, @$res;
     }
@@ -83,7 +88,7 @@ sub query_completely_within_rect {
     }
 
     my @collated;
-    foreach my $child (@{ $self->{children} // [] }) {
+    foreach my $child (@{ $self->children }) {
         my $res = $child->query_completely_within_rect ($x1, $y1, $x2, $y2);
         push @collated, @$res;
     }

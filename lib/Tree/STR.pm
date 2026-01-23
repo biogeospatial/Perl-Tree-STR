@@ -90,10 +90,13 @@ sub _load_data_inner {
 
     my $nrects = $self->{nrects};
     my $nitems = @$data;
-    my $n_per_box = ceil (sqrt ($nitems / $nrects));
-    my @ranges = map
-        {my $base = $n_per_box * $_; [$base,$base+$n_per_box-1]}
-        (0..$nrects-1);
+    my $n_per_box = ceil ($nitems / $nrects);
+    my @ranges;
+    my $i = 0;
+    while ($i < $nitems) {
+        push @ranges, [$i,$i+$n_per_box-1];
+        $i += $n_per_box;
+    }
 
     #  switch axis for inner calls
     $sort_axis = $sort_axis ? 0 : 1;
@@ -131,8 +134,8 @@ sub _get_bbox_from_centred_recs {
         my $bbox = $rec->[$bbox_idx];
         $x1 = min($x1, $bbox->[0]);
         $y1 = min($y1, $bbox->[1]);
-        $x2 = max($x1, $bbox->[2]);
-        $y2 = max($x1, $bbox->[3]);
+        $x2 = max($x2, $bbox->[2]);
+        $y2 = max($y2, $bbox->[3]);
     }
     return $x1, $y1, $x2, $y2;
 }
@@ -143,7 +146,6 @@ sub _get_bbox_from_centred_recs {
 
 sub query_point {
     my $self = shift;
-
     return $self->{root}->query_point(@_);
 }
 
@@ -153,7 +155,6 @@ sub query_point {
 
 sub query_partly_within_rect {
     my $self = shift;
-
     return $self->{root}->query_partly_within_rect(@_);
 }
 
@@ -163,7 +164,6 @@ sub query_partly_within_rect {
 
 sub query_completely_within_rect {
     my $self = shift;
-
     return $self->{root}->query_completely_within_rect(@_);
 }
 

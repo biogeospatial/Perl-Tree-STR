@@ -29,6 +29,27 @@ sub children {
     $self->{children} // [];
 }
 
+sub tip {
+    my ($self) = @_;
+    $self->{tip};
+}
+
+sub tips {
+    my ($self) = @_;
+    return $self if $self->is_tip_node;
+    my @tips;
+    my @children = @{$self->children};
+    while (my $child = shift @children) {
+        if ($child->is_tip_node) {
+            push @tips, $child;
+        }
+        else {
+            push @children, @{$child->children};
+        }
+    }
+    return \@tips;
+}
+
 sub bbox {
     my ($self) = @_;
     $self->{bbox};
@@ -62,7 +83,7 @@ sub query_partly_within_rect {
 
     my @collated;
     foreach my $child (@{ $self->children }) {
-        my $res = $child->query_partly_within_rect   ($x1, $y1, $x2, $y2);
+        my $res = $child->query_partly_within_rect ($x1, $y1, $x2, $y2);
         push @collated, @$res;
     }
     return \@collated;

@@ -8,6 +8,7 @@ use Tree::STR::Node;
 
 use POSIX qw /ceil/;
 use List::Util qw /min max/;
+use Ref::Util qw/is_blessed_ref is_arrayref/;
 
 
 =head1 NAME
@@ -47,10 +48,17 @@ sub new {
     return $self;
 }
 
+sub bbox {
+    my ($self) = @_;
+    return if !$self->{root};
+    $self->{root}->bbox;
+}
+
 sub _load_data {
     my ($self, $data) = @_;
     #  we need to work on the bbox centres
-    my @centred = map {[($_->[0] + $_->[2] / 2), ($_->[1] + $_->[3] / 2), $_]} @$data;
+    my @bboxed = map {is_blessed_ref $_ && $_->can('bbox') ? [$_->bbox, $_] : $_} @$data;
+    my @centred = map {[($_->[0] + $_->[2] / 2), ($_->[1] + $_->[3] / 2), $_]} @bboxed;
     return $self->_load_data_inner(\@centred);
 }
 

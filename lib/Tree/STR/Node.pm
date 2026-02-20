@@ -34,12 +34,12 @@ sub tip {
 
 sub tips {
     my ($self) = @_;
-    return $self if $self->is_tip_node;
+    return [$self->tip] if $self->is_tip_node;
     my @tips;
     my @children = @{$self->children};
     while (my $child = shift @children) {
         if ($child->is_tip_node) {
-            push @tips, $child;
+            push @tips, $child->tip;
         }
         else {
             push @children, @{$child->children};

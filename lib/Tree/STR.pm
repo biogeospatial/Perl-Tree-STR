@@ -153,9 +153,29 @@ sub query_point {
 
 =cut
 
+#  non-recursive algorithm
 sub query_partly_within_rect {
-    my $self = shift;
-    return $self->{root}->query_partly_within_rect(@_);
+    my ($self, $x1, $y1, $x2, $y2) = @_;
+
+    my @tips;
+    my @children = ($self->{root});
+    CHILD:
+    while (my $child = shift @children ) {
+        my $bbox = $child->bbox;
+        next CHILD
+            if $x2 < $bbox->[0] || $x1 > $bbox->[2]
+            || $y2 < $bbox->[1] || $y1 > $bbox->[3];
+
+        if ($child->is_tip_node) {
+            push @tips, $child->{tip}
+        }
+        else {
+            #  add to search stack
+            push @children, @{$child->children};
+        }
+    }
+
+    return \@tips;
 }
 
 =head2 query_completely_within_rect

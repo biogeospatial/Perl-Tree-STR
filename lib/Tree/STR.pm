@@ -145,8 +145,26 @@ sub _get_bbox_from_centred_recs {
 =cut
 
 sub query_point {
-    my $self = shift;
-    return $self->{root}->query_point(@_);
+    my ($self, $x, $y) = @_;
+
+    my @tips;
+    my @children = ($self->{root});
+    CHILD:
+    while (my $child = shift @children ) {
+        my $bbox = $child->bbox;
+        next CHILD
+            if $x < $bbox->[0] || $x > $bbox->[2] || $y < $bbox->[1] || $y > $bbox->[3];
+
+        if ($child->is_tip_node) {
+            push @tips, $child->{tip}
+        }
+        else {
+            #  add to search stack
+            push @children, @{$child->children};
+        }
+    }
+
+    return \@tips;
 }
 
 =head2 query_partly_within_rect

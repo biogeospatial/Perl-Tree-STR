@@ -31,6 +31,7 @@ diag( "Testing Tree::STR $Tree::STR::VERSION, Perl $], $^X" );
     is($qp_res, [ "0.5:10.5:1.5:11.5" ], 'query_point');
     my $qp_res2 = $tree->query_point(4, 21);
     is($qp_res2, [ "3.5:20.5:4.5:21.5" ], 'query_point 2');
+    is($tree->query_point(-4, -21), [ ], 'query_point no intersection');
 
     my $qr_res_pt = $tree->query_partly_within_rect(1, 1, 1, 10);
     is($qr_res_pt, [ "0.5:9.5:1.5:10.5" ], 'query_partly_within_rect for a point');

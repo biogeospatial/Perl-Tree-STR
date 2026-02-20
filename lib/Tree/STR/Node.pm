@@ -34,6 +34,9 @@ sub tip {
 
 sub tips {
     my ($self) = @_;
+
+    return $self->{_tip_array} if $self->{_tip_array};
+
     return [$self->tip] if $self->is_tip_node;
     my @tips;
     my @children = @{$self->children};
@@ -45,7 +48,7 @@ sub tips {
             push @children, @{$child->children};
         }
     }
-    return \@tips;
+    return $self->{_tip_array} = \@tips;
 }
 
 sub bbox {

@@ -47,6 +47,11 @@ diag( "Testing Tree::STR $Tree::STR::VERSION, Perl $], $^X" );
     my $q_completely_in_box
         = $tree->query_completely_within_rect(0.25, 10.25, 3.75, 13.75);
     is([sort @$q_completely_in_box], $exp, 'query_completely_within_rect for a box');
+    #  tips should now be cached so test that works
+    $q_completely_in_box
+        = $tree->query_completely_within_rect(0.25, 10.25, 3.75, 13.75);
+    is([sort @$q_completely_in_box], $exp, 'query_completely_within_rect for a box, second go');
+
 }
 
 #  some more

@@ -17,23 +17,19 @@ sub new {
 }
 
 sub is_tip_node {
-    my ($self) = @_;
-    !!$self->{tip};
+    !!$_[0]{tip};
 }
 
 sub is_inner_node {
-    my ($self) = @_;
-    !!$self->{children};
+    !!$_[0]{children};
 }
 
 sub children {
-    my ($self) = @_;
-    $self->{children} // [];
+    $_[0]{children} // [];
 }
 
 sub tip {
-    my ($self) = @_;
-    $self->{tip};
+    $_[0]{tip};
 }
 
 sub tips {
@@ -53,8 +49,7 @@ sub tips {
 }
 
 sub bbox {
-    my ($self) = @_;
-    $self->{bbox};
+    $_[0]{bbox};
 }
 
 sub query_point {

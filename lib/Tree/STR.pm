@@ -180,12 +180,18 @@ sub query_partly_within_rect {
     CHILD:
     while (my $child = shift @children ) {
         my $bbox = $child->bbox;
+        #  no overlap
         next CHILD
             if $x2 < $bbox->[0] || $x1 > $bbox->[2]
             || $y2 < $bbox->[1] || $y1 > $bbox->[3];
 
         if ($child->is_tip_node) {
             push @tips, $child->{tip}
+        }
+        elsif (   $x1 < $bbox->[0] && $x2 > $bbox->[2]
+               && $y1 < $bbox->[1] && $y2 > $bbox->[3]) {
+            #  bbox completely within search box, grab all tips
+            push @tips, @{$child->tips};
         }
         else {
             #  add to search stack

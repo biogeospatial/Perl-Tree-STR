@@ -21,7 +21,7 @@ Version 0.02
 
 =cut
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 
 =head1 SYNOPSIS
@@ -242,7 +242,7 @@ Shawn Laffan <shawnlaffan@gmail.com>
 
 =head1 BUGS
 
-L<https://github.com/biogeospatial/Tree-STR/issues>
+L<https://github.com/biogeospatial/Perl-Tree-STR/issues>
 
 
 =head1 SEE ALSO
